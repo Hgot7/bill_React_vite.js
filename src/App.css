@@ -1,0 +1,500 @@
+@import url('https://fonts.googleapis.com/css2?family=Prompt:ital,wght@0,400;0,500;1,400&display=swap');
+
+@import url('https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,300;0,400;1,200;1,300;1,400&display=swap');
+
+#root {
+  /* margin: 0 auto;
+  padding: 2rem; */
+  /* text-align: center; */
+  /* font-family: 'Prompt', sans-serif; */
+  font-family: 'Kanit', sans-serif;
+}
+
+body {
+  margin: initial;
+  height: 100vh;
+  background: var(--body-color);
+  /* Colors */
+  --body-color: #f6f5ff;
+  --sidebar-color: #FFF;
+  --primary-color: #41C0F3;
+  --primary-color-light: #f6f5ff;
+  --toggle-color: #DDD;
+  --text-color: #707070;
+
+  /*  Transition  */
+  --tran-02: all 0.2s ease;
+  --tran-03: all 0.3s ease;
+  --tran-04: all 0.4s ease;
+  --tran-05: all 0.5s ease;
+
+}
+
+body.dark {
+
+  --body-color: #242424;
+  --sidebar-color: #242526;
+  --primary-color: #3A3B3c;
+  --primary-color-light: #3A3b3c;
+  --toggle-color: #FFF;
+  --text-color: #CCC;
+  background-color: var(--body-color);
+}
+
+/* =============================   sidebar */
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 250px;
+  padding: 10px 14px;
+  background: var(--sidebar-color);
+  transition: var(--tran-04);
+  z-index: 100;
+}
+
+/* ==============reusable css */
+.sidebar .text {
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--text-color);
+  transition: var(--tran-04);
+  white-space: nowrap;
+  opacity: 1;
+}
+
+.sidebar .image {
+  min-width: 90px;
+  display: flex;
+  align-items: center;
+}
+
+/* ============== Sidebar-close css */
+.sidebar.close {
+  width: 88px;
+  transition: var(--tran-04);
+}
+
+.sidebar.close .text {
+  opacity: 0;
+}
+
+
+.sidebar header {
+  position: relative;
+}
+
+.sidebar .imagelogo img {
+  width: 82px;
+  position: absolute;
+  left: -6px;
+  top: 11px;
+
+}
+
+.sidebar header .imagelogo {
+  display: flex;
+  align-items: center;
+}
+
+.text.header-text {
+  color: var(--text-color);
+  transition: var(--tran-02);
+}
+
+header .imagelogo .header-text {
+  /* =============================   แบ่งแยก */
+  display: flex;
+  flex-direction: column;
+}
+
+.header-text .name {
+  font-size: 24px;
+  font-weight: 400;
+}
+
+.header-text .profession {
+  font-weight: 400;
+  margin-top: -7px;
+}
+
+.sidebar header .toggle {
+  position: absolute;
+  top: 50%;
+  right: -35px;
+  transform: translateY(-50%) rotate(180deg);
+  padding: 6px;
+  height: 25px;
+  width: 25px;
+  background: var(--primary-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  color: var(--sidebar-color);
+  font-size: 25px;
+  transition: var(--tran-03);
+}
+
+.sidebar.close header .toggle {
+  transform: translateY(-50%);
+}
+
+.sidebar li {
+  height: 50px;
+  margin-top: 10px;
+  list-style: none;
+  display: flex;
+  align-items: center;
+}
+
+.sidebar li .icon {
+  display: flex;
+  align-items: center;
+  justify-self: center;
+  min-width: 60px;
+  font-size: 30px;
+  margin-left: 27px;
+}
+
+.sidebar li .icon,
+.sidebar li .text {
+  color: var(--text-color);
+  transition: var(--tran-02);
+}
+
+body.dark .sidebar header .toggle {
+  color: var(--text-color);
+}
+
+.sidebar .menu {
+  margin-top: 35px;
+}
+
+.sidebar .search-box {
+  background: var(--primary-color-light);
+  border-radius: 27px
+}
+
+.search-box input {
+  height: 100%;
+  width: 100%;
+  outline: none;
+  border: none;
+  background: var(--primary-color-light);
+  border-radius: 27px;
+  color: var(--text-color);
+  font-family: 'Kanit', sans-serif;
+  font-size: 17px;
+}
+
+.menu-link {
+  padding: inherit;
+}
+
+.sidebar li a {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  border-radius: 6px;
+  transition: var(--tran-04);
+}
+
+/* transition */
+.sidebar li a:hover {
+  background: var(--primary-color);
+}
+
+.sidebar li a:hover .icon,
+.sidebar li a:hover .text {
+  color: var(--sidebar-color);
+}
+
+body.dark .sidebar li a:hover .icon,
+body.dark .sidebar li a:hover .text {
+  color: var(--text-color);
+}
+
+/* betweeen logout */
+.sidebar .menu-bar {
+  height: calc(100% - 137px);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* mode  */
+.menu-bar .mode {
+  position: relative;
+  background: var(--primary-color-light);
+  border-radius: 10px;
+}
+
+.menu-bar .mode .moon-sun {
+  height: 50px;
+  width: 60px;
+  min-width: 86px;
+  display: flex;
+  align-items: center;
+}
+
+.menu-bar .mode i {
+  position: absolute;
+}
+
+.menu-bar .mode i.sun {
+  opacity: 0;
+}
+
+/* Change icon dark mode */
+body.dark .menu-bar .mode i.sun {
+  opacity: 1;
+}
+
+body.dark .menu-bar .mode i.moon {
+  opacity: 0;
+}
+
+.menu-bar .mode .toggle-switch {
+  position: absolute;
+  right: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  min-width: 60px;
+  cursor: pointer;
+  border-radius: 6px;
+  background: var(--primary-color-light);
+}
+
+.toggle-switch .switch {
+  position: relative;
+  left: 6px;
+  height: 24px;
+  width: 48px;
+  border-radius: 25px;
+  background: var(--toggle-color);
+}
+
+.switch::before {
+  content: '';
+  position: absolute;
+  height: 16px;
+  width: 16px;
+  border-radius: 50%;
+  top: 50%;
+  left: 6px;
+  transform: translateY(-50%);
+  background: var(--sidebar-color);
+  transition: var(--tran-03);
+}
+
+/* move toggle  */
+body.dark .switch::before {
+  left: 27px;
+}
+
+.home {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  position: relative;
+  height: 100vh;
+  left: 278px;
+  width: calc(100% - 278px);
+  background: #DDD;
+  transition: var(--tran-05);
+}
+
+/* เมื่อปิด sidebar จะมีการเคลื่อนของ */
+.sidebar.close~.home {
+  position: relative;
+  left: 117px;
+  width: calc(100% - 117px);
+}
+
+.home .paymentBox {
+  font-size: 30px;
+  font-weight: 500;
+  color: var(--text-color);
+  padding: 8px 40px;
+}
+
+.home .summary {
+  font-size: 30px;
+  font-weight: 500;
+  color: var(--text-color);
+  padding: 8px 40px;
+}
+
+
+
+
+/* ======================================================== header profile */
+.headerprofile {
+  position: relative;
+  left: 278px;
+  width: calc(100% - 278px);
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  background: var(--primary-color-light);
+  transition: var(--tran-03);
+}
+
+/* เมื่อปิด sidebar จะมีการเคลื่อนของ navbar บน */
+.headerprofile.close {
+  position: relative;
+  left: 117px;
+  width: calc(100% - 117px);
+  transition: var(--tran-03);
+}
+
+.profile {
+  cursor: pointer;
+}
+
+.nav_link {
+  list-style: none;
+  padding: initial;
+}
+
+.nav_link li {
+  display: inline-block;
+  padding: 0px 20px;
+}
+
+.nav_link li i {
+  font-size: 25px;
+  text-decoration: none;
+  transition: var(--tran-04);
+  color: var(--text-color);
+}
+
+.nav_link li i:hover {
+  color: var(--primary-color);
+}
+
+.navbarname {
+  margin-right: auto;
+  padding: 8px 40px;
+  padding-left: 40px;
+  font-size: 30px;
+  font-weight: 500;
+  color: var(--text-color);
+  text-decoration: none;
+  pointer-events: none;
+  cursor: not-allowed;
+  /* เพิ่ม cursor style เพื่อแสดงให้ผู้ใช้ทราบว่าไม่สามารถคลิกได้ */
+}
+
+i.bi.bi-person-circle.icon {
+  font-size: 34px;
+  color: var(--text-color);
+  padding: 10px 10px 10px 10px;
+}
+
+/* border profile */
+.border {
+  height: 50px;
+  border: 1px solid var(--text-color);
+  /* ปรับขนาดและสีตามที่ต้องการ */
+  margin-right: 10px;
+  border-radius: 20px;
+}
+
+/* =============================== profile position  */
+.profilelogo {
+  display: flex;
+  align-items: center;
+  margin-right: 20px;
+}
+
+.profilelogo .header-text {
+  /* =============================   แบ่งแยก */
+  display: flex;
+  flex-direction: column;
+}
+
+.profilelogo .firstname {
+  font-size: 20px;
+}
+
+.profilelogo .role {
+  font-size: 14px;
+}
+
+/* ================================================================= home payment */
+ul.payment-link {
+  display: flex;
+  flex-direction: row;
+  margin: initial;
+  padding: initial;
+}
+
+li.nav-payment {
+  margin-right: 40px;
+  list-style: none;
+}
+
+li.nav-payment a {
+  text-decoration: none;
+  font-size: 19px;
+  color: var(--text-color);
+}
+
+.nav-payment a {
+  border-bottom: 2px solid transparent;
+  /* กำหนดเส้นขอบให้มีสีโปร่ง */
+  transition: border-bottom 0.3s ease-in-out;
+  /* ให้เกิด transition เมื่อมีการเปลี่ยนแปลง */
+}
+
+.nav-payment.active a {
+  border-bottom: 2px solid blue;
+  /* กำหนดสีขอบเมื่อ element ถูกเลือก */
+}
+
+/* body.dark .switch::before{
+  left: 24px;
+} */
+
+/* =============================   header */
+/* ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  border-radius: 10px;
+  background-color: #5d5d5d;
+}
+li {
+  float: left;
+  border-right:1px solid #bbb;
+}
+
+li:last-child {
+  border-right: none;
+}
+
+li a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+li a:hover {
+  background-color: #111;
+  color: #535bf2;
+} */
+
+
+/* li a:hover:not(.active) {
+  background-color: #111;
+} */
