@@ -4,8 +4,16 @@ import Sidebar from './components/sidebar'
 import './App.css'
 
 function App() {
-
   const [count, setCount] = useState(0)
+
+  const storedIndex = localStorage.getItem('activeNavItem');   //ใช้ Local Storage เพื่อเก็บค่า Index ที่เลือกไว้ล่าสุดได้
+  const initialIndex = storedIndex ? parseInt(storedIndex, 10) : 1;
+  const [activeNavItem, setActiveNavItem] = useState(initialIndex);
+
+  const handleNavItemClick = (index) => {
+    setActiveNavItem(index);
+    localStorage.setItem('activeNavItem', index.toString());
+  };
   return (
     <>
       <Header />
@@ -14,12 +22,20 @@ function App() {
         <div className="paymentBox">
           <p>Select Payment method</p>
           <ul className='payment-link'>
-            <li className='nav-payment'><a href="#">Credit card</a></li>
-            <li className='nav-payment'><a href="#">Paypal</a></li>
-            <li className='nav-payment'><a href="#">Promptpay</a></li>
-            <li className='nav-payment'><a href="#">Debit card</a></li>
-            <li className='nav-payment'><a href="#">Cash</a></li>
+            {['Credit card', 'Paypal', 'Promptpay', 'Debit card', 'Cash'].map((item, index) => (
+              <li
+                key={index}
+                className={`nav-payment ${index === activeNavItem ? 'active' : ''}`}
+                onClick={() => handleNavItemClick(index)}
+              >
+                <a href="#">{item}</a>
+              </li>
+            ))}
           </ul>
+          <div className="detail-payment">
+            <div className="creditcard">creditcard</div>
+            <div className="detail">detail</div>
+          </div>
         </div>
         <div className="summary">Order Summary</div>
       </section>
