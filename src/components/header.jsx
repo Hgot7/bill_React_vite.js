@@ -24,7 +24,6 @@ function Header() {
         };
     }, [isToggleSidebar]);
 
-
     return (
         <header ref={headerProfileRef} className={`headerprofile ${isToggleSidebar ? 'close' : ''}`}>
             <a className='navbarname' href="#">Bill Payment</a>

@@ -447,15 +447,18 @@ li.nav-payment a {
   color: var(--text-color);
 }
 
+/* active border nav-payment */
 .nav-payment a {
-  border-bottom: 2px solid transparent;
+  border-bottom: 5px solid transparent;
   /* กำหนดเส้นขอบให้มีสีโปร่ง */
-  transition: border-bottom 0.3s ease-in-out;
+  transition: border-bottom 0.3s ease-out;
+  
   /* ให้เกิด transition เมื่อมีการเปลี่ยนแปลง */
 }
-
 .nav-payment.active a {
-  border-bottom: 2px solid blue;
+  border-bottom: 5px solid var(--text-color);
+  padding-bottom: 5px;
+
   /* กำหนดสีขอบเมื่อ element ถูกเลือก */
 }
 
