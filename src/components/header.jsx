@@ -2,21 +2,31 @@ import React, { useState, useRef, useEffect } from 'react';
 
 function Header() {
     const [isToggleSidebar, setIsToggleSidebar] = useState(false);
-    const headerProfileRef = useRef(null); //สร้าง ref ชื่อ headerProfileRef เพื่อใช้ในการเก็บ reference ของ Element ที่ได้จาก header Component.                               
+    const headerProfileRef = useRef(null);
+
     useEffect(() => {
         const toggle = document.body.querySelector(".toggle");
-        const searchInput = document.body.querySelector(".search-box"); {/* text mode light mode */ }
+        const searchInput = document.body.querySelector(".search-box");
 
         const handleToggleClick = () => {
             setIsToggleSidebar(!isToggleSidebar);
+            localStorage.setItem('toggleSidebarState', JSON.stringify(!isToggleSidebar));
         };
-        const handleSearchboxClick = () => {  // check ก่อนว่า isToggleSidebar เป็น ture หรือไหมให้ทำการเปลี่ยน state
+
+        const handleSearchboxClick = () => {
             if (isToggleSidebar) {
                 setIsToggleSidebar(!isToggleSidebar);
+                localStorage.setItem('toggleSidebarState', JSON.stringify(!isToggleSidebar));
             }
         };
+
         toggle.addEventListener("click", handleToggleClick);
         searchInput.addEventListener("click", handleSearchboxClick);
+
+        const storedToggleState = localStorage.getItem('toggleSidebarState');
+        if (storedToggleState !== null) {
+            setIsToggleSidebar(JSON.parse(storedToggleState));
+        }
 
         return () => {
             toggle.removeEventListener("click", handleToggleClick);

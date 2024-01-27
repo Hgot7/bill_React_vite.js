@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import Logo from '../images/logo.png'
 
 function sidebar() {
@@ -7,34 +7,48 @@ function sidebar() {
     image1: new URL('../images/logo.png', import.meta.url).href,
     image2: new URL('../images/logo.png', import.meta.url).href,
   }
+  
+  // ตรวจสอบค่า DarkModeState ใน localStorage
+  const initialDarkMode = localStorage.getItem('DarkModeState') === 'true';
+  // ใช้ useState เพื่อเก็บค่า DarkModeState
+  const [isDarkMode, setIsDarkMode] = useState(initialDarkMode);
 
-  const [isDarkMode, setIsDarkMode] = useState(false); {/*  isDarkMode = false because setState ไว้*/ }
+  // ฟังก์ชั่น handleDarkModeToggle ในการ toggle dark mode
   const handleDarkModeToggle = () => {
     setIsDarkMode(!isDarkMode);
-    document.body.classList.toggle('dark', !isDarkMode);
-    // light mode and Dark mode change Text message
-    var LightMode = document.body.querySelector(".mode-text"); {/* text mode light mode */ }
-    if (document.body.classList.contains("dark")) {
-      LightMode.innerText = "Light Mode";
-    } else {
-      LightMode.innerText = "Dark Mode";
-    }
   };
+  // ใช้ useEffect ในการตรวจสอบค่า isDarkMode เมื่อมีการเปลี่ยนแปลง
+  useEffect(() => {
+    // บันทึกค่า isDarkMode ลงใน localStorage
+    localStorage.setItem('DarkModeState', isDarkMode.toString());
+    // อื่นๆที่คุณต้องการทำเมื่อ isDarkMode เปลี่ยนแปลง
+    var LightMode = document.body.querySelector(".mode-text");
+    LightMode.innerText = isDarkMode ? "Dark Mode" : "Light Mode";
+    document.body.classList.toggle('dark', isDarkMode);
+  }, [isDarkMode]);
 
-// action after that click ToggleSidebar
-  const [isToggleSidebar, setIsToggleSidebar] = useState(false); {/* Togglesidebar */ }
+
+
+  // Load the initial toggle state from Local Storage or default to false
+  const initialToggleState = localStorage.getItem('toggleSidebarState') === 'true';
+  const [isToggleSidebar, setIsToggleSidebar] = useState(initialToggleState);
+
   const handleSidebarToggle = () => {
     setIsToggleSidebar(!isToggleSidebar);
-    var searchInput = document.getElementById("searchInput"); {/* display search input */ }
-    if (!isToggleSidebar) {
-      searchInput.style.display = "none";
-    } else {
-      searchInput.style.display = "block";
-    }
   };
+  useEffect(() => {
+    // Save the current toggle state to Local Storage whenever it changes
+    localStorage.setItem('toggleSidebarState', isToggleSidebar);
+    // Display/hide search input based on isToggleSidebar
+    const searchInput = document.getElementById("searchInput");
+    if (searchInput) {
+      searchInput.style.display = !isToggleSidebar ? "block" : "none";
+    }
+  }, [isToggleSidebar]);
 
-  // click searchbox
 
+
+  
   const [isToggleSearchbox, setIsToggleSearchbox] = useState(false); {/* ToggleSearchbox */ }
   const handleSearchboxToggle = () => {
     setIsToggleSearchbox(!isToggleSearchbox);
@@ -43,7 +57,6 @@ function sidebar() {
     var searchInput = document.getElementById("searchInput"); {/* display search input */ }
     sidebar.classList.remove("close");
     searchInput.style.display = "block";
-
   };
 
 
