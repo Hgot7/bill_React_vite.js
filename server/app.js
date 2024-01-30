@@ -40,6 +40,38 @@ app.get('/Payment', (req, res) => {
             res.status(500).json({ 'error': 'Could not fetch the documents' });
         });
 });
+
+
+app.put('/payment/:id', async (req, res) => {
+    try {
+        const total = req.body ? req.body.total : undefined;
+        const paymentId = req.params.id;
+        
+        // ตรวจสอบว่า req.body ถูกกำหนดค่าหรือไม่
+        if (!req.body) {
+            return res.status(400).json({ error: 'Invalid request body' });
+        }
+
+        // ตรวจสอบว่า req.body.total ถูกกำหนดค่าหรือไม่
+        if (req.body.total === undefined) {
+            return res.status(400).json({ error: 'Total is required' });
+        }
+
+        // Handle the logic to update the total in the MongoDB collection
+        await db.collection('Payment').updateOne({ _id: paymentId }, { $set: { Total: total } });
+
+        // Fetch the updated data and send it as the response
+        const updatedData = await db.collection('Payment').find({ _id: paymentId }).toArray();
+        res.json(updatedData);
+    } catch (error) {
+        console.error('Error updating data:', error);
+        res.status(500).json({ error: 'Could not update the total.' });
+    }
+});
+
+
+
+
 app.get('/Bill', (req, res) => {
     const Bills = [];
     db.collection('Bill')
