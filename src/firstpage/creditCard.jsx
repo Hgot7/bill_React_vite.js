@@ -1,43 +1,43 @@
 import React, { useState, useEffect } from 'react';
 import moment from 'moment';
+import { Link } from 'react-router-dom';
 
-function Paypal() {
+function CreditCard() {
   const [data, setData] = useState([]);
-  const [inputValue, setInputValue] = useState('');
+  const [total, setTotal] = useState(0); // Initialize total state
 
   useEffect(() => {
-    // Fetch data from your API endpoint
-    fetch('http://localhost:3000/payment')
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        return response.json();
-      })
-      .then((data) => setData(data))
-      .catch((error) => console.error('Error fetching data:', error));
+    fetchData();
   }, []);
 
-  const handleInputChange = (e) => {
-    setInputValue(e.target.value);
+  const fetchData = () => {
+    fetch('http://localhost:3000/payment')
+      .then((response) => response.json())
+      .then((data) => {
+        setData(data);
+
+        // Calculate the sum of Total values
+        const totalSum = data.reduce((acc, item) => acc + item.Total, 0);
+        setTotal(totalSum);
+      })
+      .catch((error) => console.error('Error fetching data:', error));
   };
 
+
   const handleUpdate = (id) => {
-    // ส่งข้อมูลไปยัง API เพื่อทำการอัปเดต Total สำหรับ ID ที่กำหนด
     fetch(`http://localhost:3000/payment/${id}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        Total: parseInt(inputValue),
+        Total: parseInt(inputValues[id]),
       }),
     })
       .then((response) => {
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
-        // ทำการ fetch ข้อมูลใหม่หลังจากที่ทำการ update เสร็จ
         return fetch('http://localhost:3000/payment');
       })
       .then((response) => {
@@ -47,41 +47,49 @@ function Paypal() {
         return response.json();
       })
       .then((data) => {
-        // อัปเดตข้อมูลใน state
         setData(data);
-        // เคลียร์ค่าใน input
-        setInputValue('');
+        setInputValues({});
       })
       .catch((error) => console.error('Error updating data:', error));
   };
-  
 
   return (
-    <div className="paypal">
-      <h5>Paypal</h5>
-      <ul>
-        {data.map((item) => (
-          <li key={item._id}>
-            <p>ID: {item._id}</p>
-            <p>Total: {item.Total}</p>
-            {/* สามารถแสดง properties อื่น ๆ ได้ตามต้องการ */}
-            <p>Payment: {item.payment}</p>
-            <p>Timestamp: {moment(item.timestamp).format('YYYY-MM-DD HH:mm:ss')}</p>
-            {/* ใส่ input และปุ่ม Update */}
-            <div>
-              <input
-                type="number"
-                value={inputValue}
-                onChange={handleInputChange}
-                placeholder="Enter new total"
-              />
-              <button onClick={() => handleUpdate(item._id)}>Update</button>
-            </div>
-          </li>
-        ))}
-      </ul>
+    <div className="ceditcard">
+      <div>
+        <Link to={`/payment/AddData`}>CreateData</Link>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Payment</th>
+            <th>Total</th>
+            <th>Timestamp</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {data.map((item) => (
+            <tr key={item._id}>
+              <td>{item._id}</td>      
+              <td>{item.payment}</td>
+              <td>{item.Total}</td>
+              <td>{moment(item.timestamp).format('YYYY-MM-DD HH:mm:ss')}</td>
+              <td>
+                <div>
+                  <Link to={`/payment/edit/${item._id}`}>Edit</Link>
+                  <button onClick={() => handleUpdate(item._id)}>Delete</button>
+                </div>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      <div className="showTotal">
+        <p>Total Sum: {total} Bath</p>
+      </div>
     </div>
   );
 }
 
-export default Paypal;
+export default CreditCard;
