@@ -104,17 +104,18 @@ const Payment = mongoose.model('Payment', paymentSchema);
 app.post('/payment', async (req, res) => {
     const Net = 631;
     try {
-        const { payment } = req.body;
+        const { payment, timestamp } = req.body;
         const total = parseFloat(payment) + Net;
 
         // Check the validity of the received data
-        if (!payment) {
+        if (!payment || !timestamp) {
             return res.status(400).json({ error: 'Invalid request body' });
         }
 
         const newPayment = new Payment({
             payment: payment,
-            Total: total
+            Total: total,
+            timestamp: timestamp,
         });
 
         await newPayment.save();
@@ -125,6 +126,9 @@ app.post('/payment', async (req, res) => {
         res.status(500).json({ error: 'Could not create the data.' });
     }
 });
+
+
+
 /////////////////////////////////////////////////////// Endpoint Delete สำหรับลบข้อมูล
 
 app.delete('/payment/:id', async (req, res) => {

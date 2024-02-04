@@ -1,9 +1,12 @@
-tr .id {
-    width: 10em;
+
+tr .index {
+    width: 3em;
+    align-items: center;
+    text-align: center;
 }
 
 tr .timestamp {
-    width: 11.5em;
+    width: 12.7em;
 }
 
 tr .action {
