@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 
 function AddData() {
   const [payment, setPayment] = useState('');
-  const history = useNavigate();
+  const navigate = useNavigate(); // Change from 'history' to 'navigate'
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -20,8 +20,8 @@ function AddData() {
       });
 
       if (response.ok) {
-        // หากสำเร็จ, ทำการเปลี่ยนเส้นทางไปยังหน้า CreditCard (หรือหน้าที่คุณต้องการ)
-        history.push('/payment/credit-card');
+        // If successful, navigate to the "/payment/credit-card" route
+        navigate('/payment/credit-card');
       } else {
         console.error('Failed to create data');
       }
@@ -34,9 +34,9 @@ function AddData() {
     <div className="create-data">
       <h2>Create Data</h2>
       <form onSubmit={handleSubmit}>
-        <label htmlFor="payment">Payment:</label>
+        <label htmlFor="payment">Payment :</label>
         <input
-          type="text"
+          type="number"
           id="payment"
           value={payment}
           onChange={(e) => setPayment(e.target.value)}

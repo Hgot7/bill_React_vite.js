@@ -46,11 +46,11 @@ function EditPayment() {
   return (
     <div className="edit-payment">
       <h2>Edit Payment</h2>
-      <p>ID: {paymentData._id}</p>
-      <p>Payment: {paymentData.payment}</p>
-      <p>Total: {paymentData.Total}  [Payment+631(ค่าเน็ต)]</p>
+      <p>ID : {paymentData._id}</p>
+      <p>Payment : {paymentData.payment} Bath</p>
+      <p>Total : {paymentData.Total} Bath  [Payment+631(ค่าเน็ต)]</p>
     
-      <label htmlFor="updatedPayment">Update Payment:</label>
+      <label htmlFor="updatedPayment">Update Payment :</label>
       <input
         type="text"
         id="updatedPayment"

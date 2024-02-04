@@ -84,7 +84,7 @@ app.get('/payment/:id', (req, res) => {
 /////////////////////////////////////////////////////// Endpoint สำหรับเพิ่มข้อมูล
 const paymentSchema = new mongoose.Schema({
     payment: {
-        type: String, // or the appropriate data type for payment
+        type: String,
         required: true,
     },
     Total: {
@@ -95,22 +95,26 @@ const paymentSchema = new mongoose.Schema({
         type: Date,
         default: Date.now,
     },
-});
+}, { collection: 'Payment', versionKey: false });  // Specify the collection name explicitly // Disable the version key 
 
 const Payment = mongoose.model('Payment', paymentSchema);
 
+
 // Endpoint สำหรับเพิ่มข้อมูล
 app.post('/payment', async (req, res) => {
+    const Net = 631;
     try {
-        const { payment } = req.body.payment;
+        const { payment } = req.body;
+        const total = parseFloat(payment) + Net;
 
-        // ตรวจสอบความถูกต้องของข้อมูลที่รับมา
-        if (!payment || !Total) {
+        // Check the validity of the received data
+        if (!payment) {
             return res.status(400).json({ error: 'Invalid request body' });
         }
 
         const newPayment = new Payment({
-            payment: payment
+            payment: payment,
+            Total: total
         });
 
         await newPayment.save();
@@ -121,6 +125,31 @@ app.post('/payment', async (req, res) => {
         res.status(500).json({ error: 'Could not create the data.' });
     }
 });
+/////////////////////////////////////////////////////// Endpoint Delete สำหรับลบข้อมูล
+
+app.delete('/payment/:id', async (req, res) => {
+    const paymentId = req.params.id;
+
+    try {
+        // Check if the payment with the given ID exists
+        const existingPayment = await mongoose.connection.collection('Payment')
+            .findOne({ _id: new mongoose.Types.ObjectId(paymentId) });
+        if (!existingPayment) {
+            return res.status(404).json({ error: 'Payment not found' });
+        }
+        // Delete the payment
+        await mongoose.connection.collection('Payment')
+            .deleteOne({ _id: new mongoose.Types.ObjectId(paymentId) });
+
+        res.json({ success: true, message: 'Payment deleted successfully' });
+    } catch (error) {
+        console.error('Error deleting payment:', error);
+        res.status(500).json({ error: 'Could not delete the payment.' });
+    }
+});
+
+
+
 
 
 
