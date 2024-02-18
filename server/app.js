@@ -15,7 +15,7 @@ mongoose.connect("mongodb://127.0.0.1:27017/Record")
     })
     .catch((err) => console.log(err));
 
-// routes
+//endpoint show ข้อมูลตาม ID
 app.get('/Payment', (req, res) => {
     const payments = [];
     mongoose.connection.collection('Payment')  // ใช้ mongoose.connection.collection แทน db.collection

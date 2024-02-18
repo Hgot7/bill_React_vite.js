@@ -85,7 +85,7 @@ function CreditCard() {
             {data.map((item, index) => (
               <tr key={item._id}>
                 <td className='index'>{count + index}</td>
-                <td className='id'>{item._id.substring(0, 18)}</td>
+                <td className='id'>{item._id.substring(12, 25)}</td>
                 <td className='payment'>{item.payment}</td>
                 <td className='total'>{item.Total}</td>
                 <td className='timestamp'>{moment(item.timestamp).format('YYYY-MM-DD HH:mm:ss')}</td>

@@ -461,6 +461,7 @@ li.nav-payment a {
 }
 
 .detail-payment {
+  font-size: 27px;
   margin-top: 20px;
   display: flex;
   flex-direction: row;
