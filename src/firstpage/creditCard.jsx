@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import moment from 'moment';
 import { Link } from 'react-router-dom';
 import '../table.css';
+import axios from 'axios';
 
 function CreditCard() {
   const [data, setData] = useState([]);
@@ -15,45 +16,58 @@ function CreditCard() {
     showAlert(); // Call showAlert after fetching data
   }, []);
 
-  const fetchData = () => {
-    fetch('http://localhost:3000/payment')
-      .then((response) => response.json())
-      .then((data) => {
-        const sortedData = data.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
-        setData(sortedData);
+  const fetchData = async () => {
+    try {
+      const response = await axios.get('http://localhost:80/api/Payment/');
+      // Check for successful response status code
+      if (response.status !== 200) {
+        throw new Error(`API request failed with status code: ${response.status}`);
+      }
+      const data = response.data;
+      console.log(data)
 
-        const totalSum = sortedData.reduce((acc, item) => acc + item.Total, 0);
-        setTotal(totalSum);
-        const paymentSum = sortedData.reduce((acc, item) => acc + parseInt(item.payment, 10), 0);
-        setPayment(paymentSum);
+      const sortedData = response.data.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+      setData(sortedData);
+    
 
-        // Set the latest data
-        if (sortedData.length > 0) {
-          setLatestData(sortedData[0]);
-        }
-      })
-      .catch((error) => console.error('Error fetching data:', error));
+      const totalSum = sortedData.reduce((acc, item) => acc + item.Total, 0);
+      setTotal(totalSum);
+
+      const paymentSum = sortedData.reduce((acc, item) => acc + parseInt(item.payment, 10), 0);
+      setPayment(paymentSum);
+
+      // Set the latest data
+      if (sortedData.length > 0) {
+        setLatestData(sortedData[0]);
+      }
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
   };
 
-  const DeleteData = (id) => {
+
+  const DeleteData = async (id) => {
     const confirmDelete = window.confirm('Are you sure you want to delete this item?');
 
     if (confirmDelete) {
-      fetch(`http://localhost:3000/payment/${id}`, {
-        method: 'DELETE',
-      })
-        .then((response) => {
-          if (response.ok) {
-            alert('Item deleted successfully!');
-            fetchData();
-          } else {
-            alert('Failed to delete item.');
-            fetchData();
-          }
-        })
-        .catch((error) => console.error('Error deleting data:', error));
+      try {
+        const response = await fetch(`http://localhost:80/api/Payment/${id}`, {
+          method: 'DELETE',
+        });
+
+        if (response.ok) {
+          alert('Item deleted successfully!');
+          await fetchData();
+        } else {
+          alert('Failed to delete item.');
+          await fetchData();
+        }
+      } catch (error) {
+        console.error('Error deleting data:', error);
+      }
     }
   };
+
 
   const showAlert = () => {
     if (latestData) {
@@ -85,7 +99,7 @@ function CreditCard() {
             {data.map((item, index) => (
               <tr key={item._id}>
                 <td className='index'>{count + index}</td>
-                <td className='id'>{item._id.substring(12, 25)}</td>
+                <td className='id'>{item._id && item._id.substring(12, 25)}</td>
                 <td className='payment'>{item.payment}</td>
                 <td className='total'>{item.Total}</td>
                 <td className='timestamp'>{moment(item.timestamp).format('YYYY-MM-DD HH:mm:ss')}</td>

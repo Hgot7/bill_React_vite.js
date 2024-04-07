@@ -1,46 +1,51 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate,Link } from 'react-router-dom';
+import { useParams, useNavigate, Link } from 'react-router-dom';
 
 function EditPayment() {
   const { id } = useParams();
   const [paymentData, setPaymentData] = useState({});
   const [updatedTotal, setUpdatedTotal] = useState('');
-  const [updatedPayment, setUpdatedPayment] = useState(''); // เพิ่ม state สำหรับ Payment
+  const [updatedPayment, setUpdatedPayment] = useState('');
   const navigate = useNavigate();
 
   useEffect(() => {
     fetchData();
   }, [id]);
 
-  const fetchData = () => {
-    fetch(`http://localhost:3000/payment/${id}`)
-      .then((response) => response.json())
-      .then((data) => {
-        setPaymentData(data);
-        setUpdatedTotal(data.Total.toString()); // กำหนดค่าเริ่มต้นให้ updatedTotal
-        setUpdatedPayment(data.payment); // กำหนดค่าเริ่มต้นให้ updatedPayment
-      })
-      .catch((error) => console.error('Error fetching payment data:', error));
+  const fetchData = async () => {
+    try {
+      const response = await fetch(`http://localhost:80/api/Payment/${id}`);
+      if (!response.ok) {
+        throw new Error('Failed to fetch payment data');
+      }
+      const data = await response.json();
+      setPaymentData(data);
+      setUpdatedTotal(data.Total.toString());
+      setUpdatedPayment(data.payment);
+    } catch (error) {
+      console.error('Error fetching payment data:', error);
+    }
   };
 
-  const handleUpdate = () => {
-    fetch(`http://localhost:3000/payment/${id}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        Total: parseInt(updatedTotal),
-        payment: updatedPayment, // เพิ่มการส่งค่า updatedPayment
-      }),
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        navigate('/payment/credit-card');
-      })
-      .catch((error) => console.error('Error updating data:', error));
+  const handleUpdate = async () => {
+    try {
+      const response = await fetch(`http://localhost:80/api/Payment/${id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          Total: parseInt(updatedTotal),
+          payment: updatedPayment,
+        }),
+      });
+      if (!response.ok) {
+        throw new Error('Failed to update payment data');
+      }
+      navigate('/payment/credit-card');
+    } catch (error) {
+      console.error('Error updating data:', error);
+    }
   };
 
   return (
@@ -49,7 +54,7 @@ function EditPayment() {
       <p>ID : {paymentData._id}</p>
       <p>Payment : {paymentData.payment} Bath</p>
       <p>Total : {paymentData.Total} Bath  [Payment+631(ค่าเน็ต)]</p>
-    
+
       <label htmlFor="updatedPayment">Update Payment :</label>
       <input
         type="text"

@@ -13,7 +13,7 @@ function AddData() {
       // Convert selectedDateTime to JavaScript Date object
       const timestamp = selectedDateTime ? new Date(selectedDateTime) : new Date();
 
-      const response = await fetch('http://localhost:3000/payment', {
+      const response = await fetch('http://localhost:80/api/Payment', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -47,7 +47,7 @@ function AddData() {
         />
 
         {/* Input for selecting date and time */}
-        
+
         <label htmlFor="selectedDateTime">Select Date and Time:</label>
         <input
           type="datetime-local"

@@ -9,7 +9,7 @@ import DebitCard from './firstpage/debitCard';
 import Cash from './firstpage/cash';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import EditPayment from './firstpage/EditPayment';
-import AddData from './firstpage/Adddata';
+import AddData from './firstpage/AddData';
 import './App.css';
 
 function App() {

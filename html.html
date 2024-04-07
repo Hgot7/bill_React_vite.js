@@ -1,76 +1,26 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <style>
-        .grid-container {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            /* สร้าง 3 columns ที่มีขนาดเท่ากัน */
-            gap: 10px;
-            /* ระยะห่างระหว่าง items */
+    <title>API ตัวอย่าง</title>
+    <script>
+        // ฟังก์ชันสำหรับการดึงข้อมูลจาก API
+        function fetchData() {
+            // ใช้ fetch API เพื่อดึงข้อมูล
+            // fetch('https://2d33-2403-6200-8814-3e48-14c-671a-11fc-7e4d.ngrok-free.app/api/Payment')
+            fetch('https://2d33-2403-6200-8814-3e48-14c-671a-11fc-7e4d.ngrok-free.app/api/Payment')
+                .then(response => response.json()) // แปลงข้อมูลเป็น JSON
+                .then(data => {
+                    // ทำอะไรกับข้อมูลที่ได้รับ เช่น แสดงบนหน้าเว็บ
+                    console.log(data);
+                })
+                .catch(error => {
+                    console.error('เกิดข้อผิดพลาด:', error);
+                });
         }
-
-        .grid-item {
-            border: 1px solid #333;
-            padding: 10px;
-        }
-
-        .grid-container {
-            display: grid;
-            grid-template-columns: 100px 200px auto;
-            /* 3 columns ที่กำหนดขนาดต่าง ๆ */
-            grid-template-rows: 50px 100px;
-            /* 2 rows ที่กำหนดขนาดต่าง ๆ */
-        }
-
-        .grid-container {
-            display: grid;
-            grid-template-areas:
-                "header header header"
-                "sidebar main main"
-                "footer footer footer";
-        }
-
-        .grid-item {
-            border: 1px solid #333;
-            padding: 10px;
-        }
-
-        .header {
-            grid-area: header;
-        }
-
-        .sidebar {
-            grid-area: sidebar;
-        }
-
-        .main {
-            grid-area: main;
-        }
-
-        .footer {
-            grid-area: footer;
-        }
-    </style>
+    </script>
 </head>
-
 <body>
-
-    <div class="grid-container">
-        <!-- Grid items will go here -->
-        <div class="grid-item">Item 1</div>
-        <div class="grid-item">Item 2</div>
-        <div class="grid-item">Item 3</div>
-        <div class="grid-item">Item 4</div>
-        <div class="grid-item">Item 5</div>
-        <div class="grid-item">Item 6</div>
-    </div>
-
-
+    <!-- ปุ่มสำหรับเรียกใช้ฟังก์ชัน fetchData -->
+    <button onclick="fetchData()">ดึงข้อมูล API</button>
 </body>
-
 </html>

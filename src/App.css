@@ -429,6 +429,16 @@ i.bi.bi-person-circle.icon {
   font-size: 14px;
 }
 
+i.bi.bi-border-width.icon {
+  font-size: 40px;
+  margin-left: 42px;
+  text-decoration: none;
+  transition: var(--tran-04);
+  color: var(--text-color);
+  display: none;
+}
+
+
 /* ================================================================= home payment */
 ul.payment-link {
   display: flex;
@@ -449,7 +459,7 @@ li.nav-payment a {
 }
 
 /* active border nav-payment */
-.payment-link #marker{
+.payment-link #marker {
   position: absolute;
   left: 0;
   top: 157px;
@@ -468,7 +478,65 @@ li.nav-payment a {
   justify-content: space-between;
 }
 
+/* เพิ่ม media query เพื่อทำให้ sidebar เป็นแนวแถวเมื่อหน้าจอเล็กลง */
+@media screen and (max-width: 1024px) {
+  .sidebar {
+    display: none;
+    top: 71px;
+    left: 0;
+    height: 100%;
+    width: 271px;
 
+  }
+
+  .sidebar.close {
+    display: none;
+    height: 100%;
+    z-index: 100;
+    top: 71px;
+    /* กำหนดความสูงเริ่มต้นของ sidebar เมื่อถูกปิด */
+  }
+
+  .sidebar.close~.home {
+    position: initial;
+    left: 117px;
+    width: calc(100%);
+  }
+  .headerprofile.close {
+    position: inherit;
+    left: 117px;
+    width: calc(100%);
+  }
+
+  .headerprofile {
+    position: initial;
+    width: initial;
+  }
+
+  .home {
+    height: 100vh;
+    left: 278px;
+    position: initial;
+    width: initial;
+    transition: var(--tran-05);
+  }
+
+  .payment-link #marker {
+    position: absolute;
+    left: 0;
+    height: 5px;
+    width: 0;
+    top: 232px;
+  }
+  i.bi.bi-border-width.icon {
+    font-size: 40px;
+    margin-left: 42px;
+    text-decoration: none;
+    transition: var(--tran-04);
+    color: var(--text-color);
+    display: block;
+  }
+}
 /* body.dark .switch::before{
   left: 24px;
 } */
