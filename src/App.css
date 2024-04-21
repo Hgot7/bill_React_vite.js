@@ -298,7 +298,7 @@ body.dark .menu-bar .mode i.moon {
 body.dark .switch::before {
   left: 27px;
 }
-
+/* ================================================= end sidebar */
 .home {
   display: flex;
   flex-direction: row;
@@ -382,8 +382,6 @@ body.dark .switch::before {
 
 .navbarname {
   margin-right: auto;
-  padding: 8px 40px;
-  padding-left: 40px;
   font-size: 30px;
   font-weight: 500;
   color: var(--text-color);
@@ -478,14 +476,47 @@ li.nav-payment a {
   justify-content: space-between;
 }
 
+/* //////////////////////////////////////// responsive side bar */
+.showsidebar {
+  align-items: center;
+  margin-right: 5px;
+  padding-left: 40px;
+
+}
+
+.showsidebar i {
+  display: none;
+  position: relative;
+  top: 3px;
+  font-size: 35px;
+  text-decoration: none;
+  transition: var(--tran-04);
+  color: var(--text-color);
+  pointer-events: stroke;
+  cursor: pointer;
+}
+
+
+
+/* เมื่อขนาดหน้าจอมากกว่า 1060px ให้แสดง sidebar */
+@media screen and (min-width: 1061px) {
+  .sidebar-responsive {
+      display: none;
+  }
+}
 /* เพิ่ม media query เพื่อทำให้ sidebar เป็นแนวแถวเมื่อหน้าจอเล็กลง */
-@media screen and (max-width: 1024px) {
+@media screen and (max-width: 1060px) {
+  .sidebar-responsive {
+    display: none;
+}
   .sidebar {
     display: none;
     top: 71px;
     left: 0;
     height: 100%;
     width: 271px;
+    transition: var(--tran-04);
+    z-index: 100;
 
   }
 
@@ -494,6 +525,8 @@ li.nav-payment a {
     height: 100%;
     z-index: 100;
     top: 71px;
+    transition: var(--tran-04);
+    z-index: 100;
     /* กำหนดความสูงเริ่มต้นของ sidebar เมื่อถูกปิด */
   }
 
@@ -502,6 +535,7 @@ li.nav-payment a {
     left: 117px;
     width: calc(100%);
   }
+
   .headerprofile.close {
     position: inherit;
     left: 117px;
@@ -528,6 +562,7 @@ li.nav-payment a {
     width: 0;
     top: 232px;
   }
+
   i.bi.bi-border-width.icon {
     font-size: 40px;
     margin-left: 42px;
@@ -536,7 +571,15 @@ li.nav-payment a {
     color: var(--text-color);
     display: block;
   }
+
+  /* //////////////////////////////////////// responsive side bar */
+
+  .showsidebar i {
+    display: block;
+  }
+
 }
+
 /* body.dark .switch::before{
   left: 24px;
 } */

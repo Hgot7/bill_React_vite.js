@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Header from './components/header';
 import Sidebar from './components/sidebar';
+import Sidebar2 from './components/sidebarResponsive';
 import CreditCard from './firstpage/creditCard';
 import Paypal from './firstpage/paypal';
 import Promptpay from './firstpage/promptpay';
@@ -48,6 +49,8 @@ function App() {
       <div>
         <Header />
         <Sidebar />
+        <Sidebar2/>
+        
         <section className="home">
           <div className="paymentBox">
             <p>Select Payment method</p>

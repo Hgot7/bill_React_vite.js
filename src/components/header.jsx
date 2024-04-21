@@ -34,8 +34,39 @@ function Header() {
         };
     }, [isToggleSidebar]);
 
+
+    // sidebar-responsive In 1060px
+    const [showSidebar, setShowSidebar] = useState(false);
+    useEffect(() => {
+        function handleClickOutside(event) {
+            const sidebarResponsive = document.body.querySelector(".sidebar-responsive");
+            if (!sidebarResponsive.contains(event.target) && showSidebar) {
+                setShowSidebar(false);
+            }
+        }
+
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, [showSidebar]);
+
+    useEffect(() => {
+        const sidebarResponsive = document.body.querySelector(".sidebar-responsive");
+        const storedToggleState = localStorage.getItem('toggleSidebarState');
+        if (storedToggleState === "true") { // เปรียบเทียบกับ "true" ไม่ใช่ true
+            sidebarResponsive.style.display = "none";
+        } else {
+            sidebarResponsive.style.display = showSidebar ? "block" : "none";
+        }
+    }, [showSidebar]);
+
     return (
         <header ref={headerProfileRef} className={`headerprofile ${isToggleSidebar ? 'close' : ''}`}>
+
+            <div className='showsidebar'>
+                <i id='showsidebar-toggle' class="bi bi-list-ul" onClick={() => setShowSidebar(!showSidebar)}></i>
+            </div>
             <a className='navbarname' href="#">Bill Payment</a>
             <nav>
                 <ul className="nav_link">
